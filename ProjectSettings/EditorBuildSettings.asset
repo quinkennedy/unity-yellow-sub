@@ -4,4 +4,14 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Start.unity
+  - enabled: 1
+    path: Assets/Scenes/HololensCam.unity
+  - enabled: 1
+    path: Assets/Scenes/ScreenCam.unity
+  - enabled: 1
+    path: Assets/Scenes/ViveCam.unity
+  - enabled: 1
+    path: Assets/Scenes/Content.unity

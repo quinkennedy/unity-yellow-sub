@@ -144,7 +144,7 @@ MonoBehaviour:
   m_MaxDelay: 0.01
   m_LogLevel: 2
   m_PlayerPrefab: {fileID: 0}
-  m_AutoCreatePlayer: 0
+  m_AutoCreatePlayer: 1
   m_PlayerSpawnMethod: 0
   m_OfflineScene: 
   m_OnlineScene: 
@@ -153,6 +153,7 @@ MonoBehaviour:
   - {fileID: 1073353048082996, guid: 0986f045fae570e44944418f4a55ce92, type: 2}
   - {fileID: 1916054870007526, guid: 1016555d7240c7c40817767a90c28389, type: 2}
   - {fileID: 1675784200289330, guid: 1c0c8b58964ae204fbf406d63ecca9ae, type: 2}
+  - {fileID: 1471242669350650, guid: 95076684307eec749af5e5f29a3f5ffb, type: 2}
   m_CustomConfig: 0
   m_MaxConnections: 4
   m_ConnectionConfig:
@@ -182,7 +183,7 @@ MonoBehaviour:
     m_ReactorMaximumReceivedMessages: 1024
     m_ReactorMaximumSentMessages: 1024
     m_MaxPacketSize: 2000
-  m_Channels: 
+  m_Channels: 0500000000000000
   m_UseWebSockets: 0
   m_UseSimulator: 0
   m_SimulatedLatency: 1
@@ -248,7 +249,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b97954d3ef3676141bbe742206ae74e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  netMgrHUD: {fileID: 0}
-  vivePrefab: {fileID: 0}
-  hololensPrefab: {fileID: 0}
-  screenPrefab: {fileID: 0}
+  netMgrHUD: {fileID: 1971005980}
+  vivePrefab: {fileID: 1916054870007526, guid: 1016555d7240c7c40817767a90c28389, type: 2}
+  hololensPrefab: {fileID: 1675784200289330, guid: 1c0c8b58964ae204fbf406d63ecca9ae,
+    type: 2}
+  screenPrefab: {fileID: 1073353048082996, guid: 0986f045fae570e44944418f4a55ce92,
+    type: 2}

@@ -57,6 +57,7 @@ GameObject:
   - component: {fileID: 4969589607745220}
   - component: {fileID: 114519835075776328}
   - component: {fileID: 114690255712233680}
+  - component: {fileID: 114693294567634118}
   m_Layer: 0
   m_Name: HololensAvatar
   m_TagString: Untagged
@@ -245,6 +246,17 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
+--- !u!114 &114693294567634118
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1675784200289330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a17b88f356c1a4f46a80ee6791f41b1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!136 &136253363486128330
 CapsuleCollider:
   m_ObjectHideFlags: 1
