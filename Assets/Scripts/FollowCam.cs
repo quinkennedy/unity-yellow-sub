@@ -10,7 +10,7 @@ public class FollowCam : NetworkBehaviour {
         Debug.Log("[FollowCam:Start]");
 		if (isLocalPlayer && Camera.main != null)
         {
-            transform.SetParent(Camera.main.transform);
+            transform.SetParent(Camera.main.transform, false);
         }
 	}
 	
