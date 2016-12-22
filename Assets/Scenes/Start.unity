@@ -151,7 +151,7 @@ MonoBehaviour:
   m_SpawnPrefabs:
   - {fileID: 1128218426300860, guid: c7b32554ae293c74e866d548d4d4a300, type: 2}
   - {fileID: 1073353048082996, guid: 0986f045fae570e44944418f4a55ce92, type: 2}
-  - {fileID: 1916054870007526, guid: 1016555d7240c7c40817767a90c28389, type: 2}
+  - {fileID: 1608311331697056, guid: b8d665d838763fe479727e397e776507, type: 2}
   - {fileID: 1675784200289330, guid: 1c0c8b58964ae204fbf406d63ecca9ae, type: 2}
   - {fileID: 1471242669350650, guid: 95076684307eec749af5e5f29a3f5ffb, type: 2}
   m_CustomConfig: 0
@@ -250,7 +250,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   netMgrHUD: {fileID: 1971005980}
-  vivePrefab: {fileID: 1916054870007526, guid: 1016555d7240c7c40817767a90c28389, type: 2}
+  vivePrefab: {fileID: 1608311331697056, guid: b8d665d838763fe479727e397e776507, type: 2}
   hololensPrefab: {fileID: 1675784200289330, guid: 1c0c8b58964ae204fbf406d63ecca9ae,
     type: 2}
   screenPrefab: {fileID: 1073353048082996, guid: 0986f045fae570e44944418f4a55ce92,
