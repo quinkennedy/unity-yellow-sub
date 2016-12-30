@@ -15,3 +15,5 @@ EditorBuildSettings:
     path: Assets/Scenes/ViveCam.unity
   - enabled: 1
     path: Assets/Scenes/Content.unity
+  - enabled: 1
+    path: Assets/Scenes/Align.unity

@@ -55,6 +55,8 @@ public class StartLogic : MonoBehaviour {
         }
 #endif
         SceneManager.LoadScene("Content", LoadSceneMode.Additive);
+        //TODO: maybe the align scene should only be loaded on the HoloLens
+        SceneManager.LoadScene("Align", LoadSceneMode.Additive);
     }
 	
 	// Update is called once per frame
@@ -76,7 +78,7 @@ public class StartLogic : MonoBehaviour {
 
             //if we have already tried connecting to the server once, don't try again.
             //  the user can use the HUD to set the correct IP and attempt connecting again.
-            netMgrHUD.manager.networkAddress = "192.168.0.106";
+            netMgrHUD.manager.networkAddress = "192.168.86.184";
             netMgrHUD.manager.StartClient();
 #endif
         }

@@ -7,55 +7,109 @@ using UnityEngine.Networking;
 public class ViveAvatarLogic : NetworkBehaviour {
 
     private Transform _head, _rightController, _leftController;
-    private Transform _rightControllerRef, _leftControllerRef;
+    //private Transform _rightControllerRef, _leftControllerRef;
+    private GameObject target1, target2;
 
-	// Use this for initialization
-	void Start () {
-        _head = transform.Find("head");
-        _rightController = transform.Find("right hand");
-        _leftController = transform.Find("left hand");
+    // Use this for initialization
+    void Start () {
+        if (isLocalPlayer) {
+            Debug.Log("[ViveAvatarLogic:Start]");
+            _head = transform.Find("head");
+            _rightController = transform.Find("right hand");
+            _leftController = transform.Find("left hand");
 
-        _rightControllerRef = new GameObject().transform;
-        _rightControllerRef.parent = Camera.main.transform.parent;
+            //transform.SetParent(Camera.main.transform.parent, false);
+        }
 
-        _leftControllerRef = new GameObject().transform;
-        _leftControllerRef.parent = Camera.main.transform.parent;
-	}
-	
-	// Update is called once per frame
-	void Update () {
+        //_rightControllerRef = new GameObject().transform;
+        //_rightControllerRef.parent = Camera.main.transform.parent;
+
+        //_leftControllerRef = new GameObject().transform;
+        //_leftControllerRef.parent = Camera.main.transform.parent;
+    }
+
+    private void setTargets()
+    {
+        target1.transform.position = new Vector3(-1, 0, 0);
+        target2.transform.position = new Vector3(1, 0, 0);
+    }
+
+    // Update is called once per frame
+    void Update () {
         if (isLocalPlayer)
         {
+            if (Camera.main != null && !Camera.main.transform.parent.Equals(transform.parent))
+            {
+                Debug.Log("[ViveAvatarLogic:Update] setting parent/adding targets");
+                transform.SetParent(Camera.main.transform.parent, false);
+
+                target1 = new GameObject("Target1");
+                target1.transform.SetParent(Camera.main.transform.parent);
+
+                target2 = new GameObject("Target2");
+                target2.transform.SetParent(Camera.main.transform.parent);
+
+                setTargets();
+            }
+
+            _rightController.localPosition = InputTracking.GetLocalPosition(VRNode.RightHand);
+            _rightController.localRotation = InputTracking.GetLocalRotation(VRNode.RightHand);
+
             if (Input.GetButtonDown("Fire1"))
             {
                 Debug.Log("[ViveAvatarLogic:Update] Fire1 pressed");
+                
+                Vector3 translate = (target1.transform.localPosition - _rightController.localPosition);
+                Debug.Log("[ViveAvatarLogic:Update] to " + translate);
                 //adjust position
-                Camera.main.transform.parent.position = new Vector3(-1, 0, 0) - _rightController.position;
+                Camera.main.transform.parent.localPosition = translate;
+
+                setTargets();
+
+                //Camera.main.transform.parent.position = new Vector3(-1, 0, 0) - _rightController.position;
             }
 
-            _rightControllerRef.localPosition = InputTracking.GetLocalPosition(VRNode.RightHand);
-            _rightControllerRef.localRotation = InputTracking.GetLocalRotation(VRNode.RightHand);
+            //_rightControllerRef.localPosition = InputTracking.GetLocalPosition(VRNode.RightHand);
+            //_rightControllerRef.localRotation = InputTracking.GetLocalRotation(VRNode.RightHand);
 
-            _rightController.position = _rightControllerRef.position;
-            _rightController.rotation = _rightControllerRef.rotation;
-
+            //_rightController.position = _rightControllerRef.position;
+            //_rightController.rotation = _rightControllerRef.rotation;
+            
+            _leftController.localPosition = InputTracking.GetLocalPosition(VRNode.LeftHand);
+            _leftController.localRotation = InputTracking.GetLocalRotation(VRNode.LeftHand);
 
             if (Input.GetButtonDown("Fire2"))
             {
                 Debug.Log("[ViveAvatarLogic:Update] Fire2 pressed");
                 //adjust rotation
-                float destAngle = getAngleFromPos(new Vector2(-1, 0), new Vector2(1, 0));
-                float currAngle = getAngleFromPos(new Vector2(_rightControllerRef.position.x, _rightControllerRef.position.z),
-                                                  new Vector2(_leftControllerRef.position.x, _leftControllerRef.position.z));
-                Camera.main.transform.parent.RotateAround(_rightControllerRef.position, new Vector3(0, 1, 0), -Mathf.Rad2Deg * (currAngle - destAngle));
+                float destAngle = getAngleFromPos(target1.transform.localPosition, target2.transform.localPosition);
+                float currAngle = getAngleFromPos(target1.transform.localPosition, _leftController.localPosition);
+                //float destAngle = getAngleFromPos( new Vector2(-1, 0), new Vector2(1, 0));
+                //float currAngle = getAngleFromPos(new Vector2(_rightControllerRef.position.x, _rightControllerRef.position.z),
+                //                                  new Vector2(_leftControllerRef.position.x, _leftControllerRef.position.z));
+
+                Debug.Log("from" + currAngle);
+                Debug.Log("to" + destAngle);
+                Camera.main.transform.parent.RotateAround(target1.transform.position, new Vector3(0, 1, 0), Mathf.Rad2Deg * (currAngle - destAngle));
+                //Debug.Log("result" + getAngleFromPos(transform.Find("Cylinder").localPosition, target2.transform.localPosition));
+                //Camera.main.transform.parent.RotateAround(_rightControllerRef.position, new Vector3(0, 1, 0), -Mathf.Rad2Deg * (currAngle - destAngle));
                 //_leftControllerOffset = -InputTracking.GetLocalPosition(VRNode.LeftHand);
+
+                setTargets();
+
+                ////adjust rotation
+                //float destAngle = getAngleFromPos(new Vector2(-1, 0), new Vector2(1, 0));
+                //float currAngle = getAngleFromPos(new Vector2(_rightControllerRef.position.x, _rightControllerRef.position.z),
+                //                                  new Vector2(_leftControllerRef.position.x, _leftControllerRef.position.z));
+                //Camera.main.transform.parent.RotateAround(_rightControllerRef.position, new Vector3(0, 1, 0), -Mathf.Rad2Deg * (currAngle - destAngle));
+                ////_leftControllerOffset = -InputTracking.GetLocalPosition(VRNode.LeftHand);
             }
 
-            _leftControllerRef.localPosition = InputTracking.GetLocalPosition(VRNode.LeftHand);
-            _leftControllerRef.localRotation = InputTracking.GetLocalRotation(VRNode.LeftHand);
+            //_leftControllerRef.localPosition = InputTracking.GetLocalPosition(VRNode.LeftHand);
+            //_leftControllerRef.localRotation = InputTracking.GetLocalRotation(VRNode.LeftHand);
 
-            _leftController.position = _leftControllerRef.position;
-            _leftController.rotation = _leftControllerRef.rotation;
+            //_leftController.position = _leftControllerRef.position;
+            //_leftController.rotation = _leftControllerRef.rotation;
 
 
             if (Camera.main != null)
