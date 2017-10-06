@@ -7,7 +7,7 @@ public class ControllerTracker : MonoBehaviour {
 
     #region Inspector properties
 
-    public VRNode node = VRNode.RightHand;
+    public UnityEngine.XR.XRNode node = UnityEngine.XR.XRNode.RightHand;
 
     #endregion
 
@@ -18,15 +18,15 @@ public class ControllerTracker : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        transform.position = InputTracking.GetLocalPosition(node);
-        transform.rotation = InputTracking.GetLocalRotation(node);
+        transform.position = UnityEngine.XR.InputTracking.GetLocalPosition(node);
+        transform.rotation = UnityEngine.XR.InputTracking.GetLocalRotation(node);
 
-        if (node == VRNode.RightHand && Input.GetButtonDown("Fire1"))
+        if (node == UnityEngine.XR.XRNode.RightHand && Input.GetButtonDown("Fire1"))
         {
-            InputTracking.Recenter();
-        } else if (node == VRNode.LeftHand && Input.GetButtonDown("Fire2"))
+            UnityEngine.XR.InputTracking.Recenter();
+        } else if (node == UnityEngine.XR.XRNode.LeftHand && Input.GetButtonDown("Fire2"))
         {
-            InputTracking.Recenter();
+            UnityEngine.XR.InputTracking.Recenter();
         }
 	}
 }

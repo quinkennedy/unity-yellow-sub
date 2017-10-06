@@ -52,8 +52,8 @@ public class ViveAvatarLogic : NetworkBehaviour {
                 setTargets();
             }
 
-            _rightController.localPosition = InputTracking.GetLocalPosition(VRNode.RightHand);
-            _rightController.localRotation = InputTracking.GetLocalRotation(VRNode.RightHand);
+            _rightController.localPosition = UnityEngine.XR.InputTracking.GetLocalPosition(UnityEngine.XR.XRNode.RightHand);
+            _rightController.localRotation = UnityEngine.XR.InputTracking.GetLocalRotation(UnityEngine.XR.XRNode.RightHand);
 
             if (Input.GetButtonDown("Fire1"))
             {
@@ -75,8 +75,8 @@ public class ViveAvatarLogic : NetworkBehaviour {
             //_rightController.position = _rightControllerRef.position;
             //_rightController.rotation = _rightControllerRef.rotation;
             
-            _leftController.localPosition = InputTracking.GetLocalPosition(VRNode.LeftHand);
-            _leftController.localRotation = InputTracking.GetLocalRotation(VRNode.LeftHand);
+            _leftController.localPosition = UnityEngine.XR.InputTracking.GetLocalPosition(UnityEngine.XR.XRNode.LeftHand);
+            _leftController.localRotation = UnityEngine.XR.InputTracking.GetLocalRotation(UnityEngine.XR.XRNode.LeftHand);
 
             if (Input.GetButtonDown("Fire2"))
             {

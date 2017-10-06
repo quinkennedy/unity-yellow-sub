@@ -3,60 +3,52 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
-using UnityEngine.VR;
+using UnityEngine.XR;
+using pizza.chill.yellowsub;
 
 public class StartLogic : MonoBehaviour {
 
     #region Inspector properties
 
     public NetworkManagerHUD netMgrHUD = null;
-    public GameObject vivePrefab = null;
-    public GameObject hololensPrefab = null;
-    public GameObject screenPrefab = null;
 
     #endregion
 
     private bool _triedOnce = false;
     private bool _onVive = false;
+    private const string ClassName = "StartLogic";
+    private PlatformModel platformModel;
 
     // Use this for initialization
     void Start () {
-#if UNITY_WSA_10_0
-        //If on Hololens
-        Debug.Log("[StartLogic:Start] running on Hololens");
-        SceneManager.LoadScene("HololensCam", LoadSceneMode.Additive);
-        if (hololensPrefab != null){
-            netMgrHUD.manager.playerPrefab = hololensPrefab;
-        }
-#else
-        //_onVive = (VRSettings.loadedDeviceName.Length != 0);
-        _onVive = ((VRSettings.loadedDeviceName == "OpenVR") && (VRDevice.model == "Vive MV"));
-        Debug.Log("[StartLogic:Start] loadedDeviceName: '" + VRSettings.loadedDeviceName + "'");
-        Debug.Log("[StartLogic:Start] isPresent : " + VRDevice.isPresent);
-        Debug.Log("[StartLogic:Start] model : '" + VRDevice.model + "'");
-        Debug.Log("[StartLogic:Start] active : " + VRSettings.isDeviceActive);
-
-        if (_onVive)
+        PlatformService platformService = PlatformService.GetInstance();
+        platformModel = platformService.Model;
+        List<GameObject> spawnable = netMgrHUD.manager.spawnPrefabs;
+        bool foundPlayer = false;
+        string name = System.Enum.GetName(
+            typeof(PlatformModel.XRtypes),
+            platformModel.XRType);
+        for (int i = spawnable.Count - 1; i >= 0 && !foundPlayer; --i)
         {
-            Debug.Log("[StartLogic:Start] running on Vive");
-            SceneManager.LoadScene("ViveCam", LoadSceneMode.Additive);
-            if (vivePrefab != null)
+            if (spawnable[i].name == name)
             {
-                netMgrHUD.manager.playerPrefab = vivePrefab;
-            }
-        } else
-        {
-            Debug.Log("[StartLogic:Start] running on screen");
-            SceneManager.LoadScene("ScreenCam", LoadSceneMode.Additive);
-            if (screenPrefab != null)
-            {
-                netMgrHUD.manager.playerPrefab = screenPrefab;
+                netMgrHUD.manager.playerPrefab = spawnable[i];
+                foundPlayer = true;
             }
         }
-#endif
+        if (!foundPlayer)
+        {
+            Debug.LogErrorFormat("[{0}.Start] no prefab found for {1}",
+                ClassName, name);
+            netMgrHUD.manager.playerPrefab = spawnable[0];
+        }
         SceneManager.LoadScene("Content", LoadSceneMode.Additive);
         //TODO: maybe the align scene should only be loaded on the HoloLens
         SceneManager.LoadScene("Align", LoadSceneMode.Additive);
+        if (platformModel.Occluded)
+        {
+            SceneManager.LoadScene("Environment", LoadSceneMode.Additive);
+        }
     }
 	
 	// Update is called once per frame
@@ -69,18 +61,27 @@ public class StartLogic : MonoBehaviour {
         {
             _triedOnce = true;
             Debug.Log("[StartLogic:Update] starting up network");
-#if UNITY_WSA_10_0
-            //aka if HoloLens
-            netMgrHUD.manager.serverBindToIP = false;
-            netMgrHUD.manager.StartHost();
+            switch (platformModel.XRType)
+            {
+                case PlatformModel.XRtypes.Hololens:
+                default:
+#if UNITY_EDITOR
+                    netMgrHUD.manager.serverBindToIP = false;
+                    netMgrHUD.manager.StartHost();
 #else
-            //otherwise standalone or in Editor
-
-            //if we have already tried connecting to the server once, don't try again.
-            //  the user can use the HUD to set the correct IP and attempt connecting again.
-            netMgrHUD.manager.networkAddress = "192.168.86.184";
-            netMgrHUD.manager.StartClient();
+                    netMgrHUD.manager.networkAddress = "192.168.1.7";
+                    netMgrHUD.manager.StartClient();
 #endif
+                    break;
+                //default:
+                //    //otherwise standalone or in Editor
+
+                //    //if we have already tried connecting to the server once, don't try again.
+                //    //  the user can use the HUD to set the correct IP and attempt connecting again.
+                //    netMgrHUD.manager.networkAddress = "192.168.1.19";
+                //    netMgrHUD.manager.StartClient();
+                //    break;
+            }
         }
     }
 }

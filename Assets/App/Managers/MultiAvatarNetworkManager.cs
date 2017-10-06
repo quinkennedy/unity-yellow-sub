@@ -37,7 +37,6 @@ public class MultiAvatarNetworkManager : NetworkManager {
         ClientScene.AddPlayer(conn, 0, msg);
     }
 
-
     public override void OnClientSceneChanged(NetworkConnection conn)
     {
         //base.OnClientSceneChanged(conn);

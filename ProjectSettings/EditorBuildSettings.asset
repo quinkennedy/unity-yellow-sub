@@ -7,13 +7,22 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 1
     path: Assets/Scenes/Start.unity
+    guid: 2ee8c0b7d9efb744fbd445b708b6a0d0
   - enabled: 1
     path: Assets/Scenes/HololensCam.unity
+    guid: e8530359c2b19be46969e8f56a86e1f5
   - enabled: 1
     path: Assets/Scenes/ScreenCam.unity
+    guid: a884b82433265b842bca957a5bf81d89
   - enabled: 1
     path: Assets/Scenes/ViveCam.unity
+    guid: d0b001efb964d8444b60b3b7a01f9ec5
   - enabled: 1
     path: Assets/Scenes/Content.unity
+    guid: c9173c738b7e8524da3e2637e9610d83
   - enabled: 1
     path: Assets/Scenes/Align.unity
+    guid: 1549fdbe1a6ce6740ac2eb84bb0f301c
+  - enabled: 1
+    path: Assets/Scenes/Environment.unity
+    guid: fb1c440cdc4d4194aad1fcdaf23df38d
