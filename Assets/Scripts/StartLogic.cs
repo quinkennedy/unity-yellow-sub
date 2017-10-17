@@ -57,30 +57,19 @@ public class StartLogic : MonoBehaviour {
         //if we have a main camera, and no active network,
         //  then let's start up the network!
         // - we have to wait for a main camera so the avatar will get placed correctly.
-        if (netMgrHUD != null && !netMgrHUD.manager.isNetworkActive && Camera.main != null && !_triedOnce)
+        if (netMgrHUD != null && !netMgrHUD.manager.isNetworkActive && Camera.main != null)
         {
-            _triedOnce = true;
-            Debug.Log("[StartLogic:Update] starting up network");
-            switch (platformModel.XRType)
-            {
-                case PlatformModel.XRtypes.Hololens:
-                default:
-#if UNITY_EDITOR
-                    netMgrHUD.manager.serverBindToIP = false;
-                    netMgrHUD.manager.StartHost();
-#else
-                    netMgrHUD.manager.networkAddress = "192.168.1.7";
-                    netMgrHUD.manager.StartClient();
-#endif
-                    break;
-                //default:
-                //    //otherwise standalone or in Editor
+            //force re-read the config
+            NetworkService.GetInstance().clearModel();
+            NetworkModel networkModel = NetworkService.GetInstance().Model;
 
-                //    //if we have already tried connecting to the server once, don't try again.
-                //    //  the user can use the HUD to set the correct IP and attempt connecting again.
-                //    netMgrHUD.manager.networkAddress = "192.168.1.19";
-                //    netMgrHUD.manager.StartClient();
-                //    break;
+            if (networkModel.server)
+            {
+                netMgrHUD.manager.serverBindToIP = false;
+                netMgrHUD.manager.StartHost();
+            } else {
+                netMgrHUD.manager.networkAddress = networkModel.IP;
+                netMgrHUD.manager.StartClient();
             }
         }
     }
