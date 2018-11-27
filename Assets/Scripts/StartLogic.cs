@@ -18,6 +18,7 @@ public class StartLogic : MonoBehaviour {
     private bool _onVive = false;
     private const string ClassName = "StartLogic";
     private PlatformModel platformModel;
+    private bool _enableNetworking = false;
 
     // Use this for initialization
     void Start () {
@@ -42,6 +43,7 @@ public class StartLogic : MonoBehaviour {
                 ClassName, name);
             netMgrHUD.manager.playerPrefab = spawnable[0];
         }
+        SceneManager.sceneLoaded += SceneManager_sceneLoaded;
         SceneManager.LoadScene("Content", LoadSceneMode.Additive);
         //TODO: maybe the align scene should only be loaded on the HoloLens
         SceneManager.LoadScene("Align", LoadSceneMode.Additive);
@@ -50,14 +52,22 @@ public class StartLogic : MonoBehaviour {
             SceneManager.LoadScene("Environment", LoadSceneMode.Additive);
         }
     }
-	
-	// Update is called once per frame
-	void Update ()
+
+    private void SceneManager_sceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name.Contains("Content"))
+        {
+            _enableNetworking = true;
+        }
+    }
+
+    // Update is called once per frame
+    void Update ()
     {
         //if we have a main camera, and no active network,
         //  then let's start up the network!
         // - we have to wait for a main camera so the avatar will get placed correctly.
-        if (netMgrHUD != null && !netMgrHUD.manager.isNetworkActive && Camera.main != null)
+        if (_enableNetworking && netMgrHUD != null && !netMgrHUD.manager.isNetworkActive && Camera.main != null)
         {
             //force re-read the config
             NetworkService.GetInstance().clearModel();
@@ -65,6 +75,7 @@ public class StartLogic : MonoBehaviour {
 
             if (networkModel.server)
             {
+                Debug.Log("[StartLogic.Update] starting Host");
                 netMgrHUD.manager.serverBindToIP = false;
                 netMgrHUD.manager.StartHost();
             } else {

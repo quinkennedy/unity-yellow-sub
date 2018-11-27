@@ -282,6 +282,9 @@ MonoBehaviour:
   - {fileID: 1128218426300860, guid: c7b32554ae293c74e866d548d4d4a300, type: 2}
   - {fileID: 1608311331697056, guid: b8d665d838763fe479727e397e776507, type: 2}
   - {fileID: 1772654099200996, guid: 088e66d66d3e280438a4539048a2ed29, type: 2}
+  - {fileID: 1857181782643426, guid: 35cda827d4aec304ebc3ff4700476f04, type: 2}
+  - {fileID: 1296158730034320, guid: c6d36a97388cf46458647f403ea493d1, type: 2}
+  - {fileID: 1862519922089220, guid: 3b3a1dcd315c026499c47fcbe63223d9, type: 2}
   m_CustomConfig: 0
   m_MaxConnections: 4
   m_ConnectionConfig:
@@ -391,8 +394,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   netMgrHUD: {fileID: 1971005980}
-  vivePrefab: {fileID: 1608311331697056, guid: b8d665d838763fe479727e397e776507, type: 2}
-  hololensPrefab: {fileID: 1675784200289330, guid: 1c0c8b58964ae204fbf406d63ecca9ae,
-    type: 2}
-  screenPrefab: {fileID: 1073353048082996, guid: 0986f045fae570e44944418f4a55ce92,
-    type: 2}

@@ -9,7 +9,10 @@ namespace pizza.chill.yellowsub
     public class MRAvatarPresenter : NetworkBehaviour
     {
 
-        public Transform HMD, RightController, LeftController, RightCalibrationTransform, LeftCalibrationTransform;
+        public Transform HMD;
+        public ControllerPresenter RightController, LeftController;
+        public GameObject bulletPrefab;
+
         private Transform cam;
         private bool down = false;
 
@@ -60,12 +63,12 @@ namespace pizza.chill.yellowsub
                     switch (args.state.source.handedness)
                     {
                         case InteractionSourceHandedness.Left:
-                            target = LeftController;
-                            calibrateTo = LeftCalibrationTransform;
+                            target = LeftController.transform;
+                            calibrateTo = LeftController.CalibrationPoint;
                             break;
                         case InteractionSourceHandedness.Right:
-                            target = RightController;
-                            calibrateTo = RightCalibrationTransform;
+                            target = RightController.transform;
+                            calibrateTo = RightController.CalibrationPoint;
                             break;
                     }
                     if (target != null)
@@ -82,12 +85,43 @@ namespace pizza.chill.yellowsub
             }
         }
 
+        [Command]
+        void CmdFire(Vector3 position, Quaternion rotation)
+        {
+            // Create the Bullet from the Bullet Prefab
+            var bullet = (GameObject)Instantiate(
+                bulletPrefab,
+                position,
+                rotation);
+
+            // Add velocity to the bullet
+            bullet.GetComponent<Rigidbody>().velocity = bullet.transform.forward * 5;
+
+            // Spawn the bullet on the Clients
+            NetworkServer.Spawn(bullet);
+
+            // Destroy the bullet after 10 seconds
+            Destroy(bullet, 10.0f);
+        }
+
         private void Update()
         {
             if (isLocalPlayer)
             {
                 HMD.localPosition = cam.localPosition;
                 HMD.localRotation = cam.localRotation;
+                if (Input.GetButtonDown("FireRight"))
+                {
+                    CmdFire(
+                        RightController.BulletSpawn.position,
+                        RightController.BulletSpawn.rotation);
+                }
+                if (Input.GetButtonDown("FireLeft"))
+                {
+                    CmdFire(
+                        LeftController.BulletSpawn.position,
+                        LeftController.BulletSpawn.rotation);
+                }
             }
         }
     }
